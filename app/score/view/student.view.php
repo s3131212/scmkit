@@ -1,7 +1,7 @@
 <?php
 class Score_View {
     public function score_page($score,$scoresheet){
-        echo Template::call_view(file_get_contents(dirname(dirname(__FILE__)).'/template/student/Score.php'),array("score" => Score_View::student_list_score($score),"scoresheet" => Score_View::list_scoresheet($scoresheet)));
+        echo Template::call_view(array("appname"=>"score","file"=>"Score"),array("score" => Score_View::student_list_score($score),"scoresheet" => Score_View::list_scoresheet($scoresheet)));
     }
     public function student_list_score($data){
         $table = "";
@@ -28,6 +28,6 @@ class Score_View {
             }
             $output .= "</tr>";
         }
-        echo Template::call_view(file_get_contents(dirname(dirname(__FILE__)).'/template/student/Scoresheet_view.php'),array("id"=>$id,"name"=>$name,"data"=>$output,"id"=>$id));
+        echo Template::call_view(array("appname"=>"score","file"=>"Scoresheet_view"),array("id"=>$id,"name"=>$name,"data"=>$output,"id"=>$id));
     }
 }

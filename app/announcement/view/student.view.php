@@ -12,7 +12,7 @@ class Announcement_View {
             </blockquote></div>";
         }
         $table .= Announcement_View::create_nav($dataperpage,$nowpage,$num);
-        echo Template::call_view(file_get_contents(dirname(dirname(__FILE__)).'/template/student/Announcement.php'),array("data" => $table));
+        echo Template::call_view(array("appname"=>"announcement","file"=>"Announcement"),array("data" => $table));
     }
     private function create_nav($dataperpage,$nowpage,$num){
         if($num > $dataperpage) $num = floor($num/$dataperpage);
