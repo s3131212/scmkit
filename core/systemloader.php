@@ -6,10 +6,21 @@ require_once(dirname(__FILE__) . "/TemplateEngine.php");
 class System{
 
     public function apploader(){
+        if(!$_SESSION["login"]){
+            header("Location: ".Path::AbsolutePathLinkParser().'/user/login');
+        }
         $this->dbconnection();
         $requesturi = Path::PathParser();
-        require(dirname(dirname(__FILE__))."/app/".$requesturi["appname"]."/load.php");
-        AppLoader::method($requesturi["method"]);
+        if($GLOBALS['reservedkeywords'][$requesturi["appname"]]["file"] != null){
+            if($GLOBALS['reservedkeywords'][$requesturi["appname"]]["method"] == "template"){
+                echo Template::call_file(dirname(dirname(__FILE__)).'/'.$GLOBALS['reservedkeywords'][$requesturi["appname"]]["file"]);
+            }else{
+                require(dirname(dirname(__FILE__)).'/'.$GLOBALS['reservedkeywords'][$requesturi["appname"]]["file"]);
+            }
+        }else{
+            require(dirname(dirname(__FILE__))."/app/".$requesturi["appname"]."/load.php");
+            AppLoader::method($requesturi["method"]);
+        }
     }
 
 
