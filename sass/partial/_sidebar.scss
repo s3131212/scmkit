@@ -1,0 +1,36 @@
+.navigation {
+    a {
+        float: left;
+        width: 100%;
+        font-size: 17px;
+        font-weight: 300;
+        padding: 15px 20px;
+        border-bottom: 1px solid lighten($sidebar, 5);
+        color: #FFF;
+        &:hover {
+            background: lighten($sidebar, 10);
+        }
+        i {
+            width: 30px;
+            text-align: center;
+        }
+    }
+    .active {
+        background: #3695d5;
+    }
+    .active:hover {
+        background: #56a5da;
+    }
+}
+
+.mini .navigation {
+    a {
+        padding: 15px;
+        span {
+            display: none;
+        }
+        i {
+            font-size: 25px;
+        }
+    }
+}

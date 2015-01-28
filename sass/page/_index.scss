@@ -1,0 +1,26 @@
+.container.hero {
+	position: absolute;
+	top: 50%;
+	margin-top: -109px;
+	background: #FFF;
+	box-shadow: 0 0 3px #e5e5e5;
+	padding: 30px 0;
+	overflow: visible;
+	.hero-title {
+		float: left;
+		margin: -50px 0 0 0;
+	}
+	.logo {
+		font-size:40px;
+	}
+	.hero-title {
+		float: left;
+		margin: -73px 0 0 0;
+		color: #DDD;
+	}
+}
+
+.middle {
+	width: 1140px;
+	margin: 0 auto;
+}

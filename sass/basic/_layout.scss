@@ -1,0 +1,37 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F8F8F8;
+}
+
+.head {
+    width: 100%;
+    background: #FFF;
+    float: left;
+    padding: 15px 20px;
+}
+
+.container {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 250px;
+    background: $sidebar;
+    height: 100%;
+    float: left;
+    &.mini {
+        width: 60px;
+    }
+}
+
+.content {
+    margin-left: 280px;
+    margin-right: 40px;
+    &.mini {
+        margin-left: 100px;
+    }
+}
