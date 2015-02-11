@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__FILE__) . "/database.php");
 require_once(dirname(__FILE__) . "/path.php");
-require_once(dirname(__FILE__) . "/security.php");
+require_once(dirname(__FILE__) . "/security.class.php");
 require_once(dirname(__FILE__) . "/TemplateEngine.php");
 
 class System{

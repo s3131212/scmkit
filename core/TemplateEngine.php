@@ -5,7 +5,7 @@ class Template {
     public static function call_view($file,$array = 0){
         $schoolname = $GLOBALS['db']->select("setting", array("name" => "schoolname"));
         $schoolname = $schoolname[0]["value"];
-        $output = file_get_contents(dirname(dirname(__FILE__)).'/app/'.$file["appname"].'/template/'.$_SESSION["permission"].'/'.$file["file"].'.php');
+        $output = file_get_contents(dirname(dirname(__FILE__)).'/app/template/'.$_SESSION["permission"].'/'.$file.'.php');
         $output = str_replace("<% schoolname %>", $schoolname, $output);
         $output = str_replace("<% username %>", $_SESSION['login_name'], $output);
         $output = str_replace("<% header %>", Template::header(), $output);
@@ -22,15 +22,6 @@ class Template {
         $output = preg_replace("/<%(\s)(\w+)(\s)%>/i", "" , $output); //把沒有被宣告的 tag 全部刪除
         return $output;
     }
-    public static function call_file($file){
-        $schoolname = $GLOBALS['db']->select("setting", array("name" => "schoolname"));
-        $schoolname = $schoolname[0]["value"];
-        $output = file_get_contents($file);
-        $output = str_replace("<% schoolname %>", $schoolname, $output);
-        $output = str_replace("<% username %>", $_SESSION['login_name'], $output);
-        $output = str_replace("<% header %>", Template::header(), $output);
-        return $output;
-    }
     private static function navigation($select){
         $nav = $GLOBALS['app'][$_SESSION["permission"]];
         $output = '<aside class="sidebar"><ul class="navigation">';
@@ -42,6 +33,6 @@ class Template {
         return $output;
     }
     private static function header(){
-        return '<link rel="stylesheet" href="'.Path::AbsolutePathLinkParser().'stylesheets/style.css"><script src="'.Path::AbsolutePathLinkParser().'javascripts/jquery.min.js"></script><script src="'.Path::AbsolutePathLinkParser().'javascripts/ajax_load.js"></script><script src="'.Path::AbsolutePathLinkParser().'javascripts/basic.js"></script>';
+        return '<link rel="stylesheet" href="../stylesheets/style.css"><script src="../javascripts/jquery.min.js"></script><script src="../javascripts/ajax_load.js"></script><script src="../javascripts/basic.js"></script>';
     }
 }

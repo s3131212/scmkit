@@ -1,0 +1,69 @@
+<?php
+class Tshare_Model {
+    public function get_list(){
+        if(checkpermission(array("student"))){
+            $data = $GLOBALS['db']->select("teacher_share",array("view_permission"=>"%".$_SESSION["class"]."%"),"","",true);
+        }elseif(checkpermission(array("teacher"))){
+            $res = $GLOBALS['db']->select("teacher_share");
+            $data = array();
+            foreach ($res as $value) {
+                if(count(array_diff(explode(",", $value["view_permission"]),$_SESSION["class"])) != count(explode(",", $value["view_permission"]))){
+                    $data[] = $value;
+                }
+            }
+        }elseif(checkpermission(array("staff"))){
+            $data = $GLOBALS['db']->select("teacher_share");
+        }
+        return $data;
+    }
+    public function get_uploader($id){
+        $data = $GLOBALS['db']->select("teacher_share",array("id"=>$id));
+        return $data[0]["upload_teacher"];
+    }
+    public function is_staff($id){
+        $data = $GLOBALS['db']->select("teacher_share",array("id"=>$id));
+        if($data[0]["is_staff"]==1) return true;
+        else return false;
+    }
+    public function list_class(){
+        $data = $GLOBALS['db']->select("class");
+        return $data;
+    }
+    public function get_data($id){
+        $data = $GLOBALS['db']->select("teacher_share",array("id"=>$id));
+        return $data[0];
+    }
+    public function get_class($id){
+        $data = $GLOBALS['db']->select("class",array("id"=>$id));
+        return $data[0];
+    }
+    public function insert_file($name,$filename,$passphrase,$id,$view_permission_string){
+        $GLOBALS['db']->insert(array("filename"=>Security::xss_filter($name),"upload_teacher"=>$id,"password"=>$passphrase,"realpath"=>$filename,"view_permission"=>$view_permission_string,"is_staff"=>1),"teacher_share");
+        $filedata = $GLOBALS['db']->select("teacher_share", array("realpath" => $filename));
+        return $filedata[0];
+    }
+    public function delete_data($id){
+        $data = $GLOBALS['db']->delete('teacher_share', array('id' => $id));
+        return false;
+    }
+    public function update_data($view_permission_string,$filename,$id){
+        $GLOBALS['db']->update('teacher_share',array("view_permission"=>$view_permission_string,"filename"=>Security::xss_filter($filename)),array("id"=>$id)); 
+        return false;
+    }
+    public function class2string($array){
+        array_shift($array); array_pop($array);
+        $h=count($array);
+        $i=0;
+        while($i<$h){
+            $classname=$GLOBALS['db']->select("class", array("id" => $array[$i]));
+            if($i==0){
+                $classstring=$classname[0]["grade"]."年".$classname[0]["name"]."班";
+            }else{
+                $classstring.=$classname[0]["grade"]."年".$classname[0]["name"]."班";
+            }
+            if(($h-1)!=$i) $classstring.="與";
+            $i++;
+        }
+        return $classstring;
+    }
+}

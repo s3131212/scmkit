@@ -72,8 +72,6 @@ if(isset($_POST["username"])&&isset($_POST["password"])){
 				$_SESSION['permission'] = "staff";
 				$_SESSION['login_id'] = $staff[0]["id"];
 				$_SESSION['login_name'] = $staff[0]["name"];
-				$_SESSION['class'] = $staff[0]["class"];
-				array_pop($_SESSION['class']); array_shift($_SESSION['class']);
 				$output = "ok";
 			break;
 

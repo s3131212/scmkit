@@ -13,4 +13,4 @@ $config['sql']['password'] = '';
 //Enter sql host
 $config['sql']['host'] = '';
 
-//$GLOBALS['db'] = new MySQL($config['sql']['dbname'], $config['sql']['username'], $config['sql']['password'], $config['sql']['host']);
+$GLOBALS['db'] = new MySQL($config['sql']['dbname'], $config['sql']['username'], $config['sql']['password'], $config['sql']['host']);

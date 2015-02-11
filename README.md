@@ -10,10 +10,10 @@ This is the development branch of SCMKit, anything from here is "extremely unsta
 2. 在 /core/database.php 填入 MySQL 連線資訊
 3. 把 main.sql 匯入
 4. 在 student , teacher , staff 新增帳號，密碼使用 md5
-5. 在 index.php/login 登入
+5. 在 login.php 登入
 
 ##TODO List
-1. 功能模組化管理員部分尚未完成，肯請各位協助一起完成
+1. 部分架構更新尚未完成
 2. XSS 過濾及 CSRF 防護尚未完成
 3. 許多功能仍有殘缺和 Bug 和邏輯漏洞，肯請各位協助測試並通報
 4. 由於前端工程師表示「拎北不幹了」，UI 改用 Bootstrap
