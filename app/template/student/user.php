@@ -61,12 +61,22 @@
                 <tr><td>入學學年度</td><td><% academic_year %></td></tr>
                 <tr><td>Email</td><td><% email %></td></tr>
                 <tr><td>班級</td><td><% class %></td></tr>
-                <tr><td>獎懲紀錄</td><td>大過：<% firstleveldemerit %>支，小過：<% secondleveldemerit %>支，警告：<% warning %>支，大功：<% firstcredit %>支，小功：<% secondcredit %>支，嘉獎：<% reward %>支</td></tr>
-                <tr><td>請假</td><td><% leave %></td></tr>
             </table>
             </div>
+            <div class="box">
+                <h2>功過</h2>
+                <table>
+                    <% reward %>
+                </table>
+            </div>
+            <div class="box">
+                <h2>請假</h2>
+                <table>
+                    <% leave %>
+                </table>
+            </div>
             <div class="box">  
-            <h2>變更密碼</h2>
+                <h2>變更密碼</h2>
                 <form class="form-horizontal" role="form" method="post" action="user.php?id=<% id %>">
                     <div class="form-group">
                         <label for="psd" class="col-sm-2 control-label">請輸入新密碼</label>

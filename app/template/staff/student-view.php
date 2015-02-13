@@ -31,6 +31,7 @@
             <i class="fa fa-home"></i> <i class="fa fa-angle-right"></i> Student
         </div>
         <div class="box">
+            <h2><% name %></h2>
             <table class="table table-striped">
                 <tr><td>學生名稱</td><td><% name %></td></tr>
                 <tr><td>登入帳號</td><td><% login_name %></td></tr>
@@ -40,11 +41,15 @@
                 <tr><td>入學學年度</td><td><% academic_year %></td></tr>
                 <tr><td>Email</td><td><% email %></td></tr>
                 <tr><td>班級</td><td><% class %></td></tr>
-                <tr><td>獎懲紀錄</td><td>大過：<% firstleveldemerit %>支，小過：<% secondleveldemerit %>支，警告：<% warning %>支，大功：<% firstcredit %>支，小功：<% secondcredit %>支，嘉獎：<% reward %>支</td></tr>
-                <tr><td>請假</td><td>
-                <% leave %>
-                </td></tr>
             </table>
+        </div>
+        <div class="box">
+            <h3>請假紀錄</h3>
+            <table><% leave %></table>
+        </div>
+        <div class="box">
+            <h3>功過紀錄</h3>
+            <table><% reward %></table>
         </div>
         <a href="#" onclick="window.history.forward()" class="btn btn-default"><button>回到列表</button></a>
     </section>

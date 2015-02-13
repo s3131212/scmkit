@@ -57,102 +57,118 @@ class Student_Controller {
     }
 
     public function list_info($id){
+        $model = new Student_Model;
+        $res = $model->get_info($id);
         if(checkpermission(array("student"))){
             header("Location:index.php");
             exit();
         }elseif(checkpermission(array("teacher"))){
-            if(!in_array($id,$_SESSION["class"])){
+            if(!in_array($res["class"],$_SESSION["class"])){
                 header("Location:index.php");
                 exit();
             }
         }
-        $model = new Student_Model;
-        $res = $model->get_info($id);
         $classname = $model->get_class($res["class"]);
-        $incentive=json_decode($res["incentive"]);
-        $leave = $this->ger_leave($res["leave"]);
-        echo Template::call_view("student-view",array("class"=>$classname["grade"]."年".$classname["name"]."班","name"=>$res["name"],"login_name"=>$res["login_name"],"address"=>$res["address"],"phone"=>$res["phone"],"personalid"=>$res["personalid"],"academic_year"=>$res["academic_year"],"email"=>$res["email"],"firstleveldemerit"=>$incentive[0]->firstleveldemerit,"secondleveldemerit"=>$incentive[0]->secondleveldemerit,"warning"=>$incentive[0]->warning,"firstcredit"=>$incentive[0]->firstcredit,"secondcredit"=>$incentive[0]->secondcredit,"reward"=>$incentive[0]->reward,"leave"=>$leave));
+        echo Template::call_view("student-view",array("class"=>$classname["grade"]."年".$classname["name"]."班","name"=>$res["name"],"login_name"=>$res["login_name"],"address"=>$res["address"],"phone"=>$res["phone"],"personalid"=>$res["personalid"],"academic_year"=>$res["academic_year"],"email"=>$res["email"],"reward"=>$this->ger_incentive($id),"leave"=>$this->ger_leave($id)));
     }
 
     public function modify_info_table($id){
+        $model = new Student_Model;
+        $res = $model->get_info($id);
         if(checkpermission(array("student"))){
             header("Location:index.php");
             exit();
         }elseif(checkpermission(array("teacher"))){
-            if(!in_array($id,$_SESSION["class"])){
+            if(!in_array($res["class"],$_SESSION["class"])){
                 header("Location:index.php");
                 exit();
             }
         }
-        $model = new Student_Model;
-        $res = $model->get_info($id);
         $classname = $model->get_class($res["class"]);
         $incentive=json_decode($res["incentive"]);
-        echo Template::call_view("student-modify",array("id"=>$id,"class_grade"=>$classname["grade"],"class_name"=>$classname["name"],"name"=>$res["name"],"login_name"=>$res["login_name"],"address"=>$res["address"],"phone"=>$res["phone"],"personalid"=>$res["personalid"],"academic_year"=>$res["academic_year"],"email"=>$res["email"],"academic_year"=>$res["academic_year"],"firstleveldemerit"=>$incentive[0]->firstleveldemerit,"secondleveldemerit"=>$incentive[0]->secondleveldemerit,"warning"=>$incentive[0]->warning,"firstcredit"=>$incentive[0]->firstcredit,"secondcredit"=>$incentive[0]->secondcredit,"reward"=>$incentive[0]->reward,"date"=>date("Y/m/d")));
+        echo Template::call_view("student-modify",array("id"=>$id,"class_grade"=>$classname["grade"],"class_name"=>$classname["name"],"name"=>$res["name"],"login_name"=>$res["login_name"],"address"=>$res["address"],"phone"=>$res["phone"],"personalid"=>$res["personalid"],"academic_year"=>$res["academic_year"],"email"=>$res["email"],"academic_year"=>$res["academic_year"],"date"=>date("Y/m/d")));
     }
 
-    public function ger_leave($data){
-        $leave=json_decode($data);
+    public function modify_leave($id,$mode,$data){
+        $model = new Student_Model;
+        $data = $model->modify_leave($id,$mode,$data);
+        return true;
+    }
+
+    public function modify_incentive($id,$mode,$data){
+        $model = new Student_Model;
+        $data = $model->modify_incentive($id,$mode,$data);
+        return true;
+    }
+
+    public function ger_leave($id){
+        $model = new Student_Model;
+        $data = $model->get_leave_data($id);
         $output = "";
-        $output .="事假：";
-        if(empty($leave[0]->affairs)) $output .= "無";
-        else{
-        foreach ($leave[0]->affairs as $key => $value) {
-            $output .=  $key." -> " . $value ."節&nbsp&nbsp";
-        } }
-        $output .= "<br />";
-        $output .= "病假：";
-        if(empty($leave[0]->sick)) $output .=  "無";
-        else{
-        foreach ($leave[0]->sick as $key => $value) {
-            $output .=  $key." -> " . $value ."節&nbsp&nbsp";
-        } }
-        $output .= "<br />";
-        $output .= "喪假：";
-        if(empty($leave[0]->bereavement)) $output .=  "無";
-        else{
-        foreach ($leave[0]->bereavement as $key => $value) {
-            $output .=  $key." -> " . $value ."節&nbsp&nbsp";
-        } }
-        $output .=  "<br />";
-        $output .= "公假：";
-        if(empty($leave[0]->public)) $output .=  "無";
-        else{
-        foreach ($leave[0]->public as $key => $value) {
-            $output .=  $key." -> " . $value ."節&nbsp&nbsp";
-        } }
-        $output .= "<br />";
-        $output .= "曠課：";
-        if(empty($leave[0]->truancy)) $output .=  "無";
-        else{
-        foreach ($leave[0]->truancy as $key => $value) {
-            $output .=  $key." -> " . $value ."節&nbsp&nbsp";
-        }}
-        $output .= "<br />";
+        foreach ($data as $value) {
+            $output .= "<tr><td>".$value["type"]."</td><td>共".$value["lessons"]."節</td><td>".$value["date"]."</td><td>".$value["reason"]."</td></tr>";
+        }
         return $output;
     }
 
-    public function update_info($name,$login_name,$address,$phone,$personalid,$class_grade,$class_name,$academic_year,$firstleveldemerit,$secondleveldemerit,$warning,$firstcredit,$secondcredit,$reward,$id){
+    public function ger_incentive($id){
+        $model = new Student_Model;
+        $data = $model->get_incentive_data($id);
+        $output = "";
+        foreach ($data as $value) {
+            $output .= "<tr><td>".$value["type"]."</td><td>".$value["date"]."</td><td>".$value["notes"]."</td></tr>";
+        }
+        return $output;
+    }
+
+    public function ger_incentive_modify($id){
+        $model = new Student_Model;
+        if($_GET["mode"]=="modify"){
+            $data = $model->get_incentive_data_by_id($id);
+            echo Template::call_view("student-modify-incentive",array("id"=>$id,"type"=>$data["type"],"date"=>$data["date"],"notes"=>$data["notes"]));
+        }elseif($_GET["mode"] == "delete"){
+            $data = $model->modify_incentive($id,"delete","");
+            header("Location:".$_SERVER['HTTP_REFERER']);
+        }
+        $data = $model->get_incentive_data($id);
+        $output = "";
+        foreach ($data as $value) {
+            $output .= "<td></td><td>".$value["type"]."</td><td>".$value["date"]."</td><td>".$value["notes"]."</td><td><a href='student-modify-incentive.php?id=".$value["id"]."&mode=delete'><button>刪除</button></a><a href='student-modify-incentive.php?id=".$value["id"]."&mode=modify'><button>修改</button></a></td></tr>";
+        }
+        echo Template::call_view("student-modify-incentive",array("id"=>$id,"data"=>$output,"date"=>date("Y/m/d")));
+    }
+
+    public function ger_leave_modify($id){
+        $model = new Student_Model;
+        if($_GET["mode"]=="modify"){
+            $data = $model->get_leave_data_by_id($id);
+            echo Template::call_view("student-modify-leave",array("id"=>$id,"type"=>$data["type"],"lessons"=>$data["lessons"],"date"=>$data["date"],"reason"=>$data["reason"]));
+        }elseif($_GET["mode"] == "delete"){
+            $data = $model->modify_leave($id,"delete","");
+            header("Location:".$_SERVER['HTTP_REFERER']);
+        }
+        $data = $model->get_leave_data($id);
+        $output = "";
+        foreach ($data as $value) {
+            $output .= "<td></td><td>".$value["type"]."</td><td>共".$value["lessons"]."節</td><td>".$value["date"]."</td><td>".$value["reason"]."</td><td><a href='student-modify-leave.php?id=".$value["id"]."&mode=delete'><button>刪除</button></a><a href='student-modify-leave.php?id=".$value["id"]."&mode=modify'><button>修改</button></a></td></tr>";
+        }
+        echo Template::call_view("student-modify-leave",array("id"=>$id,"data"=>$output,"date"=>date("Y/m/d")));
+    }
+
+
+    public function update_info($name,$login_name,$address,$phone,$personalid,$class_grade,$class_name,$academic_year,$email,$id){
+        $model = new Student_Model;
+        $res = $model->get_info($id);
         if(checkpermission(array("student"))){
             header("Location:index.php");
             exit();
         }elseif(checkpermission(array("teacher"))){
-            if(!in_array($id,$_SESSION["class"])){
+            if(!in_array($res["class"],$_SESSION["class"])){
                 header("Location:index.php");
                 exit();
             }
         }
-        $model = new Student_Model;
-        $res = $model->get_info($id);
-        $incentive = json_decode($res["incentive"]);
-        $incentive[0]->firstleveldemerit = $firstleveldemerit;
-        $incentive[0]->secondleveldemerit = $secondleveldemerit;
-        $incentive[0]->warning = $warning;
-        $incentive[0]->firstcredit = $firstcredit;
-        $incentive[0]->secondcredit = $secondcredit;
-        $incentive[0]->reward = $reward;
-        $json_encode = json_encode($incentive);
-        $model->update_info($name,$login_name,$address,$phone,$personalid,$class_grade,$class_name,$academic_year,$json_encode,$id);
+        $model->update_info($name,$login_name,$address,$phone,$personalid,$class_grade,$class_name,$academic_year,$email,$id);
         return true;
     }
 

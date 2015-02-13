@@ -1,30 +1,11 @@
--- phpMyAdmin SQL Dump
--- version 4.3.0
--- http://www.phpmyadmin.net
---
--- 主機: localhost
--- 產生時間： 2015 年 01 月 20 日 20:33
--- 伺服器版本: 5.5.39-MariaDB
--- PHP 版本： 5.5.19
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- 資料庫： `main`
---
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `announcement`
---
 
 CREATE TABLE IF NOT EXISTS `announcement` (
 `id` int(11) NOT NULL,
@@ -33,12 +14,6 @@ CREATE TABLE IF NOT EXISTS `announcement` (
   `title` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `board`
---
 
 CREATE TABLE IF NOT EXISTS `board` (
 `id` int(11) NOT NULL,
@@ -51,39 +26,21 @@ CREATE TABLE IF NOT EXISTS `board` (
   `author_per` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_update` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `class`
---
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `class` (
 `id` int(32) NOT NULL,
   `grade` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `curriculum` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `communication`
---
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `communication` (
 `id` int(11) NOT NULL,
   `class` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `date` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `homework`
---
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `homework` (
 `id` int(11) NOT NULL,
@@ -93,13 +50,7 @@ CREATE TABLE IF NOT EXISTS `homework` (
   `end_date` date NOT NULL,
   `class` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `teacher` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `homework_upload`
---
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `homework_upload` (
 `id` int(11) NOT NULL,
@@ -111,24 +62,29 @@ CREATE TABLE IF NOT EXISTS `homework_upload` (
   `upload_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `incentive` (
+`id` int(11) NOT NULL,
+  `studentid` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `notes` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `date` varchar(32) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
---
--- 資料表結構 `scoredata`
---
+CREATE TABLE IF NOT EXISTS `leave` (
+`id` int(11) NOT NULL,
+  `studentid` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `lessons` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `reason` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `date` varchar(32) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `scoredata` (
 `id` int(11) NOT NULL,
   `testid` varchar(128) NOT NULL,
   `studentid` varchar(128) NOT NULL,
   `score` float NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `scoresheet`
---
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `scoresheet` (
 `id` int(11) NOT NULL,
@@ -137,13 +93,7 @@ CREATE TABLE IF NOT EXISTS `scoresheet` (
   `testid` varchar(128) NOT NULL,
   `owner` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `createdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `seat`
---
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `seat` (
 `id` int(11) NOT NULL,
@@ -153,22 +103,10 @@ CREATE TABLE IF NOT EXISTS `seat` (
   `data` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `setting`
---
-
 CREATE TABLE IF NOT EXISTS `setting` (
   `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `value` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `staff`
---
 
 CREATE TABLE IF NOT EXISTS `staff` (
   `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -178,12 +116,6 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `address` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `phone` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `student`
---
 
 CREATE TABLE IF NOT EXISTS `student` (
   `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -196,16 +128,8 @@ CREATE TABLE IF NOT EXISTS `student` (
   `personalid` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `academic_year` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `class` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `incentive` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `leave` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `teacher`
---
 
 CREATE TABLE IF NOT EXISTS `teacher` (
   `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -219,12 +143,6 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `class` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `teacher_share`
---
-
 CREATE TABLE IF NOT EXISTS `teacher_share` (
 `id` int(11) NOT NULL,
   `filename` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -234,13 +152,7 @@ CREATE TABLE IF NOT EXISTS `teacher_share` (
   `upload_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `view_permission` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `is_staff` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `test`
---
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `test` (
 `id` int(11) NOT NULL,
@@ -250,159 +162,85 @@ CREATE TABLE IF NOT EXISTS `test` (
   `average` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
---
--- 已匯出資料表的索引
---
 
---
--- 資料表索引 `announcement`
---
 ALTER TABLE `announcement`
  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `id` (`id`);
 
---
--- 資料表索引 `board`
---
 ALTER TABLE `board`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `class`
---
 ALTER TABLE `class`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `communication`
---
 ALTER TABLE `communication`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `homework`
---
 ALTER TABLE `homework`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `homework_upload`
---
 ALTER TABLE `homework_upload`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `scoredata`
---
+ALTER TABLE `incentive`
+ ADD PRIMARY KEY (`id`), ADD KEY `id` (`id`);
+
+ALTER TABLE `leave`
+ ADD UNIQUE KEY `id_3` (`id`), ADD KEY `id` (`id`), ADD KEY `id_2` (`id`);
+
 ALTER TABLE `scoredata`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `scoresheet`
---
 ALTER TABLE `scoresheet`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `seat`
---
 ALTER TABLE `seat`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `setting`
---
 ALTER TABLE `setting`
  ADD PRIMARY KEY (`name`);
 
---
--- 資料表索引 `staff`
---
 ALTER TABLE `staff`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `student`
---
 ALTER TABLE `student`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `teacher`
---
 ALTER TABLE `teacher`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `teacher_share`
---
 ALTER TABLE `teacher_share`
  ADD PRIMARY KEY (`id`);
 
---
--- 資料表索引 `test`
---
 ALTER TABLE `test`
  ADD PRIMARY KEY (`id`);
 
---
--- 在匯出的資料表使用 AUTO_INCREMENT
---
 
---
--- 使用資料表 AUTO_INCREMENT `announcement`
---
 ALTER TABLE `announcement`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
---
--- 使用資料表 AUTO_INCREMENT `board`
---
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `board`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
---
--- 使用資料表 AUTO_INCREMENT `class`
---
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `class`
-MODIFY `id` int(32) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- 使用資料表 AUTO_INCREMENT `communication`
---
+MODIFY `id` int(32) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `communication`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=40;
---
--- 使用資料表 AUTO_INCREMENT `homework`
---
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `homework`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- 使用資料表 AUTO_INCREMENT `homework_upload`
---
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `homework_upload`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
---
--- 使用資料表 AUTO_INCREMENT `scoredata`
---
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+ALTER TABLE `incentive`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
+ALTER TABLE `leave`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `scoredata`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- 使用資料表 AUTO_INCREMENT `scoresheet`
---
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `scoresheet`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
---
--- 使用資料表 AUTO_INCREMENT `seat`
---
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `seat`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- 使用資料表 AUTO_INCREMENT `teacher_share`
---
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `teacher_share`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
---
--- 使用資料表 AUTO_INCREMENT `test`
---
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 ALTER TABLE `test`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

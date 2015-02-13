@@ -32,23 +32,47 @@ class Student_Model {
         return $res[0];
     }
 
-    public function update_info($name,$login_name,$address,$phone,$personalid,$class_grade,$class_name,$academic_year,$incentive,$id){
-        $class = $this->get_class_with_name($class_grade,$class_name);
-        $GLOBALS['db']->update('student',array("name"=>Security::xss_filter($name),"login_name"=>Security::xss_filter($login_name),"address"=>Security::xss_filter($address),"phone"=>Security::xss_filter($phone),"personalid"=>Security::xss_filter($personalid),"academic_year"=>Security::xss_filter($academic_year),"class"=>Security::xss_filter($class),"incentive"=>$incentive),array("id"=>$id));
+    public function get_leave_data($id){
+        return $GLOBALS['db']->select("leave", array("studentid" => $id));
     }
 
-    public function new_leave($id,$affairs_date,$affairs_num,$sick_date,$sick_num,$bereavement_date,$bereavement_num,$public_date,$public_num,$truancy_date,$truancy_num){
-        $model = new Student_Model;
-        $res = $GLOBALS['db']->select("student", array("id" => $id));
-        $leave = json_decode($res[0]["leave"],true);
-        if($affairs_date != null && $affairs_num != null) $leave[0]["affairs"] = $leave[0]["affairs"] + array($affairs_date => $affairs_num);
-        if($sick_date != null && $sick_num != null) $leave[0]["sick"] = $leave[0]["sick"] + array($sick_date=>$sick_num);
-        if($bereavement_date != null && $bereavement_num != null) $leave[0]["bereavement"] = $leave[0]["affairs"] + array($bereavement_date => $abereavement_num);
-        if($public_date != null && $public_num != null) $leave[0]["public"] = $leave[0]["public"] + array($public_date => $public_num);
-        if($truancy_date != null && $truancy_num != null) $leave[0]["truancy"] = $leave[0]["truancy"] + array($truancy_date => $truancy_num);
-        $json=json_encode($leave);
-        $GLOBALS['db']->update('student',array("leave"=>$json),array("id"=>$id));
-        return false;
+    public function get_incentive_data($id){
+        return $GLOBALS['db']->select("incentive", array("studentid" => $id));
+    }
+
+    public function get_leave_data_by_id($id){
+        $data = $GLOBALS['db']->select("leave", array("id" => $id));
+        return $data[0];
+    }
+
+    public function get_incentive_data_by_id($id){
+        $data = $GLOBALS['db']->select("incentive", array("id" => $id));
+        return $data[0];
+    }
+
+    public function update_info($name,$login_name,$address,$phone,$personalid,$class_grade,$class_name,$academic_year,$email,$id){
+        $class = $this->get_class_with_name($class_grade,$class_name);
+        $GLOBALS['db']->update('student',array("name"=>Security::xss_filter($name),"login_name"=>Security::xss_filter($login_name),"address"=>Security::xss_filter($address),"phone"=>Security::xss_filter($phone),"personalid"=>Security::xss_filter($personalid),"academic_year"=>Security::xss_filter($academic_year),"class"=>Security::xss_filter($class),"email"=>Security::xss_filter($email)),array("id"=>$id));
+    }
+
+    public function modify_leave($id,$mode,$data){
+        if($mode == "new"){
+            $GLOBALS['db']->insert(array("studentid"=>Security::xss_filter($data["studentid"]),"type"=>Security::xss_filter($data["type"]),"lessons"=>Security::xss_filter($data["lessons"]),"reason"=>Security::xss_filter($data["reason"],true),"date"=>Security::xss_filter($data["date"])),"leave");
+        }elseif($mode == "modify"){
+            $GLOBALS['db']->update("leave",array("type"=>Security::xss_filter($data["type"]),"lessons"=>Security::xss_filter($data["lessons"]),"reason"=>Security::xss_filter($data["reason"],true)),array("id"=>$id));
+        }elseif($mode == "delete"){
+            $GLOBALS['db']->delete('leave', array('id' => $id));
+        }
+    }
+
+    public function modify_incentive($id,$mode,$data){
+        if($mode == "new"){
+            $GLOBALS['db']->insert(array("studentid"=>Security::xss_filter($data["studentid"]),"type"=>Security::xss_filter($data["type"]),"notes"=>Security::xss_filter($data["notes"],true),"date"=>Security::xss_filter($data["date"])),"incentive");
+        }elseif($mode == "modify"){
+            $GLOBALS['db']->update("incentive",array("type"=>Security::xss_filter($data["type"]),"notes"=>Security::xss_filter($data["notes"],true),"date"=>Security::xss_filter($data["date"])),array("id"=>$id));
+        }elseif($mode == "delete"){
+            $GLOBALS['db']->delete('incentive', array('id' => $id));
+        }
     }
 
     public function new_student($name,$id,$login_name,$academic_year,$password,$class_grade,$class_name,$address,$phone,$personalid){
