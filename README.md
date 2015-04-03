@@ -1,21 +1,13 @@
-#SCMKit 開發區 SCMKit Development Branch
+#SCMKit 1.0 - Alpha 0.1
 
-此處為SCMKit的開發區，所有從這裡下載的東西，都是比開發版更開發版的，也就是處於「極度不穩定」、「極度不安全」、「能運作就謝天謝地」的版本，僅供開發者貢獻使用，如果您正在尋找 1.0-Alpha 版，我們將於 2015 年初公布。
+此處為 SCMKit 的測試版，測試版意味著存有大量已知及未知的漏洞及 Bug ，如果您有找到任何 Bug 或漏洞，歡迎修復並發送 Pull Request 或是使用 Issues 提交給我們。目前由於開發方便緣故，尚未對語言、 UI 、 HTML 作任何優化，也未作太多的資安防護，如果您願意協助我們，歡迎發送 Pull Request 。
 
-This is the development branch of SCMKit, anything from here is "extremely unstable", "extremely unsafe", and you should never use it unless you are developer who is contributing. If you are looking for 1.0-Alpha version, we will published in early 2015. There's no English support right now.
+<span style='color:red'>請絕對不要將此版本用於正式用途</span>，避免因為任何尚未修復的漏洞而造成您的損失。
 
 ##安裝
 
-1. 下載 development branch
+1. 下載 alpha branch
 2. 在 /core/database.php 填入 MySQL 連線資訊
 3. 把 main.sql 匯入
 4. 在 student , teacher , staff 新增帳號，密碼使用 md5
 5. 在 login.php 登入
-
-##TODO List
-1. 部分架構更新尚未完成
-2. XSS 過濾及 CSRF 防護尚未完成
-3. 許多功能仍有殘缺和 Bug 和邏輯漏洞，肯請各位協助測試並通報
-4. 由於前端工程師表示「拎北不幹了」，UI 改用 Bootstrap
-5. 技術文件與註解非常缺乏
-6. 英文支援
